@@ -48,7 +48,7 @@ pipeline {
 
         stage('Trigger Ansible Deployment') {
             steps {
-                sh 'ansible-playbook -i ansible/inventory.ini full-deployment/ansible/playbook.yml'
+                sh 'ansible-playbook -i ansible/inventory.ini full-deployment/ansible/playbook.yaml'
             }
         }
     }
