@@ -49,7 +49,7 @@ pipeline {
         stage('Trigger Ansible Deployment') {
             steps {
                 dir("${env.WORKSPACE}") {
-                  sh 'ansible-playbook -i ansible/inventory.ini ansible/playbook.yml'
+                  sh 'ansible-playbook -i ansible/inventory.ini ansible/playbook.yaml'
                 }
             }
         }
