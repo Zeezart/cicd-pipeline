@@ -46,6 +46,12 @@ pipeline {
             }
         }
 
+        stage('Clone pipeline Repo') {
+          steps {
+            sh 'git clone https://github.com/Zeezart/cicd-pipeline.git'
+          }
+        }
+
         stage('Trigger Ansible Deployment') {
             steps {
                 dir("${env.WORKSPACE}") {
