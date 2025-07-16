@@ -40,7 +40,8 @@ pipeline {
         stage('Copy Artifact to Server') {
             steps {
                 // sh 'scp -i ~/.ssh/vibez-key build.zip ubuntu@3.91.99.212:/home/ubuntu/'
-                scp -o StrictHostKeyChecking=no -i /var/lib/jenkins/.ssh/vibez-key build.zip ubuntu@3.91.99.212:/home/ubuntu/
+                scp -i /var/lib/jenkins/.ssh/vibez-key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null build.zip ubuntu@3.91.99.212:/home/ubuntu/
+
 
             }
         }
