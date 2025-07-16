@@ -6,12 +6,12 @@ pipeline {
     }
 
     stages {
-        stage('Clone Code') {
-            steps {
-                git url: 'https://github.com/Zeezart/my-deen-and-i.git', branch: 'main'
-
-            }
+       stage('Clone App Repo') {
+          steps {
+            sh 'git clone --branch main https://github.com/Zeezart/my-deen-and-i.git app'
+          }
         }
+
 
         stage('Install Dependencies') {
             steps {
@@ -44,12 +44,6 @@ pipeline {
 
 
             }
-        }
-
-        stage('Clone pipeline Repo') {
-          steps {
-            sh 'git clone https://github.com/Zeezart/cicd-pipeline.git'
-          }
         }
 
         stage('Trigger Ansible Deployment') {
