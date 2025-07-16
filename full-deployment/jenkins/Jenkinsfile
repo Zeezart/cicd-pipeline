@@ -1,0 +1,52 @@
+pipeline {
+    agent any
+
+    tools{
+        nodejs 'NODE21'
+    }
+
+    stages {
+        stage('Clone Code') {
+            steps {
+                git url: 'https://github.com/Zeezart/my-deen-and-i.git', branch: 'main'
+
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                sh 'npm install'
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                sh 'npm test'
+            }
+        }
+
+        stage('Build App') {
+            steps {
+                sh 'npm run build'
+            }
+        }
+
+        stage('Package Artifact') {
+            steps {
+                sh 'zip -r build.zip dist/'
+            }
+        }
+
+        stage('Copy Artifact to Server') {
+            steps {
+                sh 'scp -i ~/Downloads/vibez-key.pem app/build.zip ubuntu@3.91.99.212:/home/ubuntu/'
+            }
+        }
+
+        stage('Trigger Ansible Deployment') {
+            steps {
+                sh 'ansible-playbook -i ansible/inventory.ini ansible/playbook.yml'
+            }
+        }
+    }
+}

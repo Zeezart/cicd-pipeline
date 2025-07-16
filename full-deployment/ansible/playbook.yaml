@@ -1,0 +1,28 @@
+---
+- name: Deploy Built App to EC2
+  hosts: webservers
+  become: yes
+
+  tasks:
+    - name: Install Node.js
+      apt:
+        name: nodejs
+        state: present
+        update_cache: yes
+
+    - name: Install npm
+      apt:
+        name: npm
+        state: present
+
+    - name: Unzip the app
+      unarchive:
+        src: /home/ubuntu/build.zip
+        dest: /home/ubuntu/app
+        remote_src: yes
+        extra_opts: [ -o, -d, /home/ubuntu/app ]
+
+    - name: Start the app
+      command: npm start
+      args:
+        chdir: /home/ubuntu/app
