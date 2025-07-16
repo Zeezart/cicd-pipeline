@@ -15,25 +15,36 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                sh 'npm install'
+                dir ('app'){
+                    sh 'npm install'
+                }
             }
         }
 
         stage('Run Tests') {
             steps {
-                sh 'npm test'
+                dir ('app'){
+                   sh 'npm test'
+                }
+                
             }
         }
 
         stage('Build App') {
             steps {
-                sh 'npm run build'
+                dir ('app'){
+                    sh 'npm run build'
+                }
+               
             }
         }
 
         stage('Package Artifact') {
             steps {
-                sh 'zip -r build.zip dist/'
+                dir ('app'){
+                    sh 'zip -r build.zip dist/'
+                }
+                
             }
         }
 
