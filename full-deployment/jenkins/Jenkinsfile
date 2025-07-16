@@ -66,7 +66,7 @@ pipeline {
                 // dir("${env.WORKSPACE}") {
                 //   sh 'ansible-playbook -i ansible/inventory.ini ansible/playbook.yaml'
                 // }
-                sh 'ansible-playbook -i ansible/inventory.ini ansible/playbook.yaml'
+                sh 'ansible-playbook -i ansible/inventory.ini full-deployment/ansible/playbook.yaml'
             }
         }
     }
