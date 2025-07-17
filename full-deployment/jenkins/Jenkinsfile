@@ -5,9 +5,11 @@ pipeline {
         nodejs 'NODE21'
     }
 
-    parameters {
-        choice(name: 'ENVIRONMENT', choices: ['dev', 'prod'], description: 'Choose environment')
-    }
+    properties([
+        parameters([
+            choice(name: 'ENV', choices: ['dev', 'prod'], description: 'Choose the environment to deploy to')
+        ])
+    ])
 
 
     stages {
@@ -71,7 +73,9 @@ pipeline {
                 // dir("${env.WORKSPACE}") {
                 //   sh 'ansible-playbook -i ansible/inventory.ini ansible/playbook.yaml'
                 // }
-                sh "ansible-playbook -i ansible/inventory.ini full-deployment/ansible/playbook.yaml --limit ${params.ENVIRONMENT}"
+                 sh """
+                    ansible-playbook -i ansible/inventory.ini ansible/playbook.yaml --extra-vars "env=${ENV}"
+                """
             }
         }
     }
