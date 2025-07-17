@@ -1,34 +1,37 @@
 ---
-- name: Deploy Built React App to EC2
-  hosts: webservers
+
+- name: Deploy React App
+  hosts: "{{ env }}"
   become: yes
+  vars:
+    web_root: "/var/www/{{ env }}"
 
   tasks:
-    - name: Install Nginx
+
+    - name: Ensure nginx is installed
       apt:
         name: nginx
         state: present
         update_cache: yes
 
-    - name: Remove old app files
+    - name: Remove old build (if any)
       file:
-        path: /var/www/html
+        path: "{{ web_root }}"
         state: absent
 
-    - name: Recreate html directory
+    - name: Create deploy directory
       file:
-        path: /var/www/html
+        path: "{{ web_root }}"
         state: directory
         mode: '0755'
 
-    - name: Unzip the React app build to Nginx root
+    - name: Unzip app to web root
       unarchive:
         src: /home/ubuntu/build.zip
-        dest: /var/www/html
+        dest: "{{ web_root }}"
         remote_src: yes
 
-    - name: Ensure Nginx is running
+    - name: Restart Nginx
       service:
         name: nginx
         state: restarted
-        enabled: yes
